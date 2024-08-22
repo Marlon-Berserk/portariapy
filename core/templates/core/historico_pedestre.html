@@ -1,0 +1,35 @@
+<!-- core/templates/core/historico_pedestre.html -->
+{% load static %}
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Histórico de Entrada e Saída de Pedestres</title>
+    <link rel="icon" href="{% static 'core/favicon.ico' %}" type="image/x-icon">
+</head>
+<body>
+    <h1>Histórico de Entrada e Saída de Pedestres</h1>
+    <table>
+        <thead>
+            <tr>
+                <th>Nome</th>
+                <th>Hora de Entrada</th>
+                <th>Hora de Saída</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for registro in registros %}
+            <tr>
+                <td>{{ registro.pedestre }}</td>
+                <td>{{ registro.hora_entrada|date:"d/m/Y H:i" }}</td>
+                <td>{% if registro.hora_saida %}{{ registro.hora_saida|date:"d/m/Y H:i" }}{% else %}-{% endif %}</td>
+            </tr>
+            {% empty %}
+            <tr>
+                <td colspan="3">Nenhum registro encontrado.</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    <a href="{% url 'controle_entrada_saida_pedestre' %}">Voltar ao Controle de Entrada e Saída</a>
+</body>
+</html>

@@ -1,0 +1,14 @@
+<!-- core/templates/core/cadastrar_pedestre.html -->
+
+{% load static %}
+<head>
+    <title>Cadastrar Pedestre</title>
+    <link rel="icon" href="{% static 'core/favicon.ico' %}" type="image/x-icon">
+</head>
+<h2>Cadastrar Pedestre</h2>
+<form method="POST">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button type="submit">Salvar</button>
+</form>
+<p><a href="{% url 'index' %}">← Voltar para o Menu Principal</a></p>

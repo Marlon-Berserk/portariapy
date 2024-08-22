@@ -1,0 +1,80 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sistema de Portaria</title>
+    <link rel="icon" href="{% static 'core/favicon.ico' %}" type="image/x-icon">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        body {
+            font-family: 'Poppins', sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f0f0f0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            color: #000;
+            overflow: hidden;
+        }
+
+        .container {
+            text-align: center;
+            background-color: #fff;
+            padding: 40px;
+            border-radius: 10px;
+            box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
+        }
+
+        h1 {
+            margin-bottom: 30px;
+            font-size: 2em;
+            color: #333;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+        }
+
+        ul {
+            list-style-type: none;
+            padding: 0;
+        }
+
+        ul li {
+            margin: 15px 0;
+        }
+
+        ul li a {
+            width: 50%;
+            display: inline-block;
+            padding: 15px 30px;
+            text-decoration: none;
+            color: #fff;
+            background-color: #00bfa5;
+            border-radius: 30px;
+            font-size: 1em;
+            font-weight: 500;
+            transition: background-color 0.3s ease;
+        }
+
+        ul li a:hover {
+            background-color: #009688;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Bem-vindo ao Sistema de Portaria</h1>
+        <ul>
+            <li><a href="{% url 'cadastrar_veiculo' %}"><i class="fas fa-car"></i> Cadastrar Veículo</a></li>
+            <li><a href="{% url 'cadastrar_pedestre' %}"><i class="fas fa-walking"></i> Cadastrar Pedestre</a></li>
+            <li><a href="{% url 'controle_entrada_saida_veiculo' %}"><i class="fas fa-sign-in-alt"></i> Controle de Entrada e Saída de Veículos</a></li>
+            <li><a href="{% url 'controle_entrada_saida_pedestre' %}"><i class="fas fa-sign-in-alt"></i> Controle de Entrada e Saída de Pedestres</a></li>
+            <li><a href="{% url 'historico_veiculo' %}"><i class="fas fa-history"></i> Histórico de Entrada e Saída de Veículos</a></li>
+            <li><a href="{% url 'historico_pedestre' %}"><i class="fas fa-history"></i> Histórico de Entrada e Saída de Pedestres</a></li>
+        </ul>
+    </div>
+</body>
+</html>

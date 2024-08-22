@@ -1,0 +1,26 @@
+<!-- core/templates/core/controle_entrada_saida_pedestre.html -->
+{% load static %}
+<head>
+    <title>Controle de Entrada e Saída de Pedestres</title>
+    <link rel="icon" href="{% static 'core/favicon.ico' %}" type="image/x-icon">
+</head>
+
+<h2>Controle de Entrada e Saída de Pedestres</h2>
+
+<form method="POST">
+    {% csrf_token %}
+    {{ form_entrada.as_p }}
+    <button type="submit" name="entrada">Dar Entrada</button>
+</form>
+
+<h3>Pedestres no Local</h3>
+<ul>
+    {% for pedestre in pedestres %}
+        <li>{{ pedestre.pedestre }} - <form method="POST" style="display:inline;">
+            {% csrf_token %}
+            <input type="hidden" name="pedestre_id" value="{{ pedestre.id }}">
+            <button type="submit" name="saida">Dar Saída</button>
+        </form></li>
+    {% endfor %}
+</ul>
+<p><a href="{% url 'index' %}">← Voltar para o Menu Principal</a></p>

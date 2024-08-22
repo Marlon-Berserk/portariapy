@@ -1,0 +1,14 @@
+<!-- core/templates/core/cadastrar_veiculo.html -->
+
+{% load static %}
+<head>
+    <title>Cadastrar Veículo</title>
+    <link rel="icon" href="{% static 'core/favicon.ico' %}" type="image/x-icon">
+</head>
+<h2>Cadastrar Veículo</h2>
+<form method="POST">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button type="submit">Salvar</button>
+</form>
+<p><a href="{% url 'index' %}">← Voltar para o Menu Principal</a></p>
