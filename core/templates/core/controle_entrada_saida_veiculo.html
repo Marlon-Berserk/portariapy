@@ -1,49 +1,133 @@
-<!-- core/templates/core/controle_entrada_saida_veiculo.html -->
 {% load static %}
 <!DOCTYPE html>
-<html>   
+<html lang="pt-BR">
 <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Controle de Entrada e Saída de Veículos</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link rel="icon" href="{% static 'core/favicon.ico' %}" type="image/x-icon">
+    <style>
+        /* Reset básico */
+        body, html {
+            margin: 0;
+            padding: 0;
+            height: 100%;
+            font-family: Arial, sans-serif;
+            background-color: #f9f9f9;;
+        }
+
+        
+
+        /* Estilos do Formulário */
+        form {
+            background: white;
+            padding: 20px;
+            border-radius: 5px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            margin-bottom: 20px;
+        }
+
+        form button {
+            background-color: #007BFF;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+        }
+
+        form button:hover {
+            background-color: #0056b3;
+        }
+
+        /* Estilos da Tabela */
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            background: white;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            border-radius: 5px;
+            overflow: hidden;
+        }
+
+        table th, table td {
+            padding: 12px;
+            text-align: left;
+            border-bottom: 1px solid #ddd;
+        }
+
+        table th {
+            background-color: #f4f4f4;
+        }
+
+        table tr:nth-child(even) {
+            background-color: #f9f9f9;
+        }
+
+        table tr:hover {
+            background-color: #f1f1f1;
+        }
+
+        /* Estilos do Link de Voltar */
+        .back-link {
+            display: inline-block;
+            margin-top: 20px;
+            font-size: 16px;
+            color: #007BFF;
+            text-decoration: none;
+        }
+
+        .back-link:hover {
+            text-decoration: underline;
+        }
+    </style>
 </head>
 <body>
-    <h1>Controle de Entrada e Saída de Veículos</h1>
-    <form method="post">
-        {% csrf_token %}
-        {{ form.as_p }}
-        <button type="submit" name="entrada">Registrar Entrada</button>
-    </form>
-    <h2>Veículos no Pátio</h2>
-    <table>
-        <thead>
-            <tr>
-                <th>Veículo</th>
-                <th>Hora de Entrada</th>
-                <th>Hora de Saída</th>
-                <th>Ações</th>
-            </tr>
-        </thead>
-        <tbody>
-            {% for veiculo in veiculos %}
-            <tr>
-                <td>{{ veiculo.veiculo }}</td>
-                <td>{{ veiculo.hora_entrada|date:"d/m/Y H:i" }}</td>
-                <td>{% if veiculo.hora_saida %}{{ veiculo.hora_saida|date:"d/m/Y H:i" }}{% else %}-{% endif %}</td>
-                <td>
-                    {% if not veiculo.hora_saida %}
-                    <form method="post" style="display:inline;">
-                        {% csrf_token %}
-                        <input type="hidden" name="veiculo_id" value="{{ veiculo.id }}">
-                        <button type="submit" name="saida">Registrar Saída</button>
-                    </form>
-                    {% else %}
-                    <span>Saída registrada</span>
-                    {% endif %}
-                </td>
-            </tr>
-            {% endfor %}
-        </tbody>
-    </table>
-    <a href="{% url 'cadastrar_veiculo' %}">Voltar ao Cadastro de Veículos</a>
+    <div class="container">
+        <h1>Controle de Entrada e Saída de Veículos</h1>
+
+        <form method="post">
+            {% csrf_token %}
+            {{ form.as_p }}
+            <button type="submit" name="entrada">Registrar Entrada</button>
+        </form>
+
+        <h2>Veículos no Pátio</h2>
+
+        <table>
+            <thead>
+                <tr>
+                    <th>Veículo</th>
+                    <th>Hora de Entrada</th>
+                    <th>Hora de Saída</th>
+                    <th>Ações</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for veiculo in veiculos %}
+                <tr>
+                    <td>{{ veiculo.veiculo }}</td>
+                    <td>{{ veiculo.hora_entrada|date:"d/m/Y H:i" }}</td>
+                    <td>{% if veiculo.hora_saida %}{{ veiculo.hora_saida|date:"d/m/Y H:i" }}{% else %}-{% endif %}</td>
+                    <td>
+                        {% if not veiculo.hora_saida %}
+                        <form method="post" style="display:inline;">
+                            {% csrf_token %}
+                            <input type="hidden" name="veiculo_id" value="{{ veiculo.id }}">
+                            <button type="submit" name="saida">Registrar Saída</button>
+                        </form>
+                        {% else %}
+                        <span>Saída registrada</span>
+                        {% endif %}
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+
+        
+    </div>
 </body>
 </html>

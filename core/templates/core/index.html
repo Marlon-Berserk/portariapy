@@ -4,77 +4,156 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Sistema de Portaria</title>
+    <title>Layout com Sidebar e iFrame</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link rel="icon" href="{% static 'core/favicon.ico' %}" type="image/x-icon">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <style>
-        body {
-            font-family: 'Poppins', sans-serif;
+        /* Reset básico */
+        body, html {
             margin: 0;
             padding: 0;
-            background-color: #f0f0f0;
+            height: 100%;
+            font-family: Arial, sans-serif;
+        }
+
+        /* Container para o layout */
+        .container {
             display: flex;
-            justify-content: center;
-            align-items: center;
             height: 100vh;
-            color: #000;
             overflow: hidden;
         }
 
-        .container {
-            text-align: center;
-            background-color: #fff;
-            padding: 40px;
-            border-radius: 10px;
-            box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
+        /* Estilos da Sidebar */
+        .sidebar {
+            width: 250px;
+            background-color: #ffffff;
+            padding: 20px;
+            box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1);
+            position: relative;
         }
 
-        h1 {
-            margin-bottom: 30px;
-            font-size: 2em;
-            color: #333;
-            text-transform: uppercase;
-            letter-spacing: 2px;
+        .sidebar::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 5px;
+            height: 100%;
+            background: linear-gradient(to bottom, #007BFF, #00CFFF);
         }
 
-        ul {
+        .sidebar ul {
             list-style-type: none;
             padding: 0;
+            margin: 0;
         }
 
-        ul li {
+        .sidebar ul li {
+            position: relative;
             margin: 15px 0;
         }
 
-        ul li a {
-            width: 50%;
-            display: inline-block;
-            padding: 15px 30px;
+        .sidebar ul li a {
             text-decoration: none;
-            color: #fff;
-            background-color: #00bfa5;
-            border-radius: 30px;
-            font-size: 1em;
-            font-weight: 500;
-            transition: background-color 0.3s ease;
+            color: #333;
+            font-weight: bold;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 10px;
+            border-radius: 5px;
+            transition: background 0.3s, color 0.3s;
         }
 
-        ul li a:hover {
-            background-color: #009688;
+        .sidebar ul li a:hover {
+            background-color: #007BFF;
+            color: white;
+        }
+
+        .sidebar ul li a i {
+            font-size: 1.2em;
+        }
+
+        /* Submenu estilos */
+        .sidebar ul li ul {
+            list-style-type: none;
+            padding: 0;
+            margin: 0;
+            display: none;
+            position: absolute;
+            left: 100%;
+            top: 0;
+            background: #f9f9f9;
+            border: 1px solid #ddd;
+            z-index: 1000;
+        }
+
+        .sidebar ul li:hover > ul {
+            display: block;
+        }
+
+        .sidebar ul li ul li {
+            margin: 0;
+        }
+
+        .sidebar ul li ul li a {
+            padding: 10px 20px;
+            border-radius: 0;
+            background: #f9f9f9;
+            color: #333;
+            font-weight: normal;
+        }
+
+        .sidebar ul li ul li a:hover {
+            background-color: #ddd;
+        }
+
+        /* Estilos do Conteúdo */
+        .content {
+            flex: 1;
+            padding: 20px;
+            background: url('https://www.portariamais.com.br/wp-content/uploads/2019/05/MARCA.png') no-repeat center center;
+        }
+
+        .content iframe {
+            width: 100%;
+            height: calc(100vh - 40px);
+            border: none;
+            border-radius: 5px;
         }
     </style>
 </head>
 <body>
     <div class="container">
-        <h1>Bem-vindo ao Sistema de Portaria</h1>
-        <ul>
-            <li><a href="{% url 'cadastrar_veiculo' %}"><i class="fas fa-car"></i> Cadastrar Veículo</a></li>
-            <li><a href="{% url 'cadastrar_pedestre' %}"><i class="fas fa-walking"></i> Cadastrar Pedestre</a></li>
-            <li><a href="{% url 'controle_entrada_saida_veiculo' %}"><i class="fas fa-sign-in-alt"></i> Controle de Entrada e Saída de Veículos</a></li>
-            <li><a href="{% url 'controle_entrada_saida_pedestre' %}"><i class="fas fa-sign-in-alt"></i> Controle de Entrada e Saída de Pedestres</a></li>
-            <li><a href="{% url 'historico_veiculo' %}"><i class="fas fa-history"></i> Histórico de Entrada e Saída de Veículos</a></li>
-            <li><a href="{% url 'historico_pedestre' %}"><i class="fas fa-history"></i> Histórico de Entrada e Saída de Pedestres</a></li>
-        </ul>
+        <div class="sidebar">
+            <ul>
+                <li><a href="{% url 'cadastrar_veiculo' %}" onclick="updateIframe(this.href); return false;"><i class="fas fa-car"></i> Cadastrar Veículo</a></li>
+                <li><a href="{% url 'cadastrar_pedestre' %}" onclick="updateIframe(this.href); return false;"><i class="fas fa-walking"></i> Cadastrar Pedestre</a></li>
+                <li>
+                    <a href="#"><i class="fas fa-sign-in-alt"></i> Controle de Entrada e Saída</a>
+                    <ul>
+                        <li><a href="{% url 'controle_entrada_saida_veiculo' %}" onclick="updateIframe(this.href); return false;"><i class="fas fa-car"></i> Veículos</a></li>
+                        <li><a href="{% url 'controle_entrada_saida_pedestre' %}" onclick="updateIframe(this.href); return false;"><i class="fas fa-walking"></i> Pedestres</a></li>
+                    </ul>
+                </li>
+                <li>
+                    <a href="#"><i class="fas fa-history"></i> Histórico de Entrada e Saída</a>
+                    <ul>
+                        <li><a href="{% url 'historico_veiculo' %}" onclick="updateIframe(this.href); return false;"><i class="fas fa-car"></i> Veículos</a></li>
+                        <li><a href="{% url 'historico_pedestre' %}" onclick="updateIframe(this.href); return false;"><i class="fas fa-walking"></i> Pedestres</a></li>
+                    </ul>
+                </li>
+            </ul>
+        </div>
+        <div class="content">
+            <iframe id="contentFrame" src="" title="Conteúdo"></iframe>
+        </div>
     </div>
+
+    <script>
+        function updateIframe(url) {
+            document.getElementById('contentFrame').src = url;
+        }
+    </script>
 </body>
 </html>

@@ -1,35 +1,99 @@
-<!-- core/templates/core/historico_pedestre.html -->
 {% load static %}
 <!DOCTYPE html>
-<html>
+<html lang="pt-BR">
 <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Histórico de Entrada e Saída de Pedestres</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link rel="icon" href="{% static 'core/favicon.ico' %}" type="image/x-icon">
+    <style>
+        /* Reset básico */
+        body, html {
+            margin: 0;
+            padding: 0;
+            height: 100%;
+            font-family: Arial, sans-serif;
+        }
+
+        
+        /* Estilos do Título */
+        h1 {
+            margin-bottom: 20px;
+            font-size: 24px;
+            color: #333;
+        }
+
+        /* Estilos da Tabela */
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            background: white;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            border-radius: 5px;
+            overflow: hidden;
+        }
+
+        table th, table td {
+            padding: 12px;
+            text-align: left;
+            border-bottom: 1px solid #ddd;
+        }
+
+        table th {
+            background-color: #f4f4f4;
+        }
+
+        table tr:nth-child(even) {
+            background-color: #f9f9f9;
+        }
+
+        table tr:hover {
+            background-color: #f1f1f1;
+        }
+
+        /* Estilos do Link de Voltar */
+        .back-link {
+            display: inline-block;
+            margin-top: 20px;
+            font-size: 16px;
+            color: #007BFF;
+            text-decoration: none;
+        }
+
+        .back-link:hover {
+            text-decoration: underline;
+        }
+    </style>
 </head>
 <body>
-    <h1>Histórico de Entrada e Saída de Pedestres</h1>
-    <table>
-        <thead>
-            <tr>
-                <th>Nome</th>
-                <th>Hora de Entrada</th>
-                <th>Hora de Saída</th>
-            </tr>
-        </thead>
-        <tbody>
-            {% for registro in registros %}
-            <tr>
-                <td>{{ registro.pedestre }}</td>
-                <td>{{ registro.hora_entrada|date:"d/m/Y H:i" }}</td>
-                <td>{% if registro.hora_saida %}{{ registro.hora_saida|date:"d/m/Y H:i" }}{% else %}-{% endif %}</td>
-            </tr>
-            {% empty %}
-            <tr>
-                <td colspan="3">Nenhum registro encontrado.</td>
-            </tr>
-            {% endfor %}
-        </tbody>
-    </table>
-    <a href="{% url 'controle_entrada_saida_pedestre' %}">Voltar ao Controle de Entrada e Saída</a>
+    <div class="container">
+        <h1>Histórico de Entrada e Saída de Pedestres</h1>
+
+        <table>
+            <thead>
+                <tr>
+                    <th>Nome</th>
+                    <th>Hora de Entrada</th>
+                    <th>Hora de Saída</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for registro in registros %}
+                <tr>
+                    <td>{{ registro.pedestre }}</td>
+                    <td>{{ registro.hora_entrada|date:"d/m/Y H:i" }}</td>
+                    <td>{% if registro.hora_saida %}{{ registro.hora_saida|date:"d/m/Y H:i" }}{% else %}-{% endif %}</td>
+                </tr>
+                {% empty %}
+                <tr>
+                    <td colspan="3">Nenhum registro encontrado.</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+
+        
+    </div>
 </body>
 </html>
